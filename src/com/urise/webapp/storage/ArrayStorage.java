@@ -10,8 +10,8 @@ import java.util.Arrays;
 public class ArrayStorage {
 
     private final int STORAGE_LIMIT = 10000;
-    private int size = 0;
     private final Resume[] storage = new Resume[STORAGE_LIMIT];
+    private int size = 0;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -29,7 +29,7 @@ public class ArrayStorage {
 
     public void save(Resume r) {
         if(size > STORAGE_LIMIT) {
-            System.out.println("Resume database is full.");
+            System.out.println("Storage overflow.");
         } else if(getIndex(r.getUuid()) != -1) {
             System.out.println("Resume this " + r.getUuid() + " exists.");
         } else {
@@ -52,17 +52,18 @@ public class ArrayStorage {
         int index = getIndex(uuid);
         if(index == -1) {
             System.out.println("ERROR: Resume with " + uuid +  " not found.");
+        } else {
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
         }
-        storage[index] = storage[size - 1];
-        storage[size - 1] = null;
-        size--;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+        return Arrays.copyOfRange(storage, 0, size);
     }
 
     public int size() {
