@@ -8,28 +8,14 @@ import com.urise.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void save(Resume r) {
-        if(size > STORAGE_LIMIT) {
-            System.out.println("Storage overflow.");
-        } else if(getIndex(r.getUuid()) != -1) {
-            System.out.println("Resume this " + r.getUuid() + " exists.");
-        } else {
-            storage[size] = r;
-            size++;
-            System.out.println("Resume add in database.");
-        }
+    protected void doSave(Resume r, int index) {
+        storage[size] = r;
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if(index == -1) {
-            System.out.println("ERROR: Resume with " + uuid +  " not found.");
-        } else {
-            storage[index] = storage[size - 1];
-            storage[size - 1] = null;
-            size--;
-        }
+    protected void doDelete(String uuid, int index) {
+        storage[index] = storage[size - 1];
+        storage[size - 1] = null;
     }
 
     @Override
