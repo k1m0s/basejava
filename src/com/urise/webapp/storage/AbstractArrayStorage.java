@@ -32,6 +32,9 @@ public abstract class AbstractArrayStorage implements Storage {
             doSave(r, index);
             size++;
         }
+        if(index >= 0) {
+            System.out.println("ERROR:" + r.getUuid() + " is available.");
+        }
     }
 
     public void delete(String uuid) {
@@ -39,7 +42,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if(index == -1) {
             System.out.println("ERROR: Resume with " + uuid +  " not found.");
         } else {
-            doDelete(uuid, index);
+            doDelete(uuid);
             size--;
         }
     }
@@ -63,6 +66,6 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     protected abstract void doSave(Resume r, int index);
-    protected abstract void doDelete(String uuid, int index);
+    protected abstract void doDelete(String uuid);
     protected abstract int getIndex(String uuid);
 }
